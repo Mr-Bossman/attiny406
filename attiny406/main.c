@@ -83,6 +83,15 @@ int main(void)
 	init_timer();
 	initSerial();
 	PORTB.OUT |= (1<<3);
+	PORTC.PIN0CTRL = 1 << 3;
+	PORTC.PIN1CTRL = 1 << 3;
+	PORTC.PIN2CTRL = 1 << 3;
+	PORTC.PIN3CTRL = 1 << 3;
+	PORTA.PIN4CTRL = 1 << 3;
+	PORTA.PIN5CTRL = 1 << 3;
+	PORTA.PIN6CTRL = 1 << 3;
+	PORTA.PIN7CTRL = 1 << 3;
+
 	sei();
     while (1) 
     {
@@ -95,7 +104,7 @@ int main(void)
 			sei();
 			dos = false;
 		}
-		if(recv[0] == id){
+		if(recv[0] == ((PORTC.IN & 0x0F) | (PORTA.IN & 0xF0))){
 			TCA0.SINGLE.CMP0 = recv[1];
 			TCA0.SINGLE.CMP1 = recv[2];
 			TCA0.SINGLE.CMP2 = recv[3];
