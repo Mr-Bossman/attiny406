@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>attiny406</AssemblyName>
-    <Name>attiny406</Name>
-    <RootNamespace>attiny406</RootNamespace>
+    <AssemblyName>leds</AssemblyName>
+    <Name>leds</Name>
+    <RootNamespace>leds</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -36,45 +36,31 @@
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.47.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
-    <avrtool>custom</avrtool>
-    <avrtoolserialnumber />
+    <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
+    <avrtoolserialnumber>J42700036063</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x1E9225</avrdeviceexpectedsignature>
-    <custom>
+    <avrtoolinterface>UPDI</avrtoolinterface>
+    <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
+          <UpdiClock>500000</UpdiClock>
         </InterfaceProperties>
-        <InterfaceName>
-        </InterfaceName>
+        <InterfaceName>UPDI</InterfaceName>
       </ToolOptions>
-      <ToolType>custom</ToolType>
-      <ToolNumber>
-      </ToolNumber>
-      <ToolName>Custom Programming Tool</ToolName>
-    </custom>
-    <CustomProgrammingToolCommand>
-    </CustomProgrammingToolCommand>
-    <avrtoolinterface />
-    <com_atmel_avrdbg_tool_simulator>
-      <ToolOptions xmlns="">
-        <InterfaceProperties>
-        </InterfaceProperties>
-        <InterfaceName>
-        </InterfaceName>
-      </ToolOptions>
-      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
-      <ToolNumber xmlns="">
-      </ToolNumber>
-      <ToolName xmlns="">Simulator</ToolName>
-    </com_atmel_avrdbg_tool_simulator>
+      <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
+      <ToolNumber>J42700036063</ToolNumber>
+      <ToolName>Atmel-ICE</ToolName>
+    </com_atmel_avrdbg_tool_atmelice>
+    <avrtoolinterfaceclock>500000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=attiny406 -B "%24(PackRepoDir)\atmel\ATtiny_DFP\1.3.229\gcc\dev\attiny406"</avrgcc.common.Device>
+        <avrgcc.common.Device>-mmcu=attiny406 -B "%24(PackRepoDir)\atmel\ATtiny_DFP\1.8.332\gcc\dev\attiny406"</avrgcc.common.Device>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
         <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
@@ -89,7 +75,7 @@
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.directories.IncludePaths>
           <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.3.229\include</Value>
+            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.8.332\include\</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
@@ -103,7 +89,7 @@
         </avrgcc.linker.libraries.Libraries>
         <avrgcc.assembler.general.IncludePaths>
           <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.3.229\include</Value>
+            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.8.332\include\</Value>
           </ListValues>
         </avrgcc.assembler.general.IncludePaths>
       </AvrGcc>
@@ -112,7 +98,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=attiny406 -B "%24(PackRepoDir)\atmel\ATtiny_DFP\1.3.229\gcc\dev\attiny406"</avrgcc.common.Device>
+        <avrgcc.common.Device>-mmcu=attiny406 -B "%24(PackRepoDir)\atmel\ATtiny_DFP\1.8.332\gcc\dev\attiny406"</avrgcc.common.Device>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
         <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
@@ -127,10 +113,10 @@
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.directories.IncludePaths>
           <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.3.229\include</Value>
+            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.8.332\include\</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
-        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
         <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
@@ -142,7 +128,7 @@
         </avrgcc.linker.libraries.Libraries>
         <avrgcc.assembler.general.IncludePaths>
           <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.3.229\include</Value>
+            <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.8.332\include\</Value>
           </ListValues>
         </avrgcc.assembler.general.IncludePaths>
         <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
