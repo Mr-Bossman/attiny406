@@ -25,10 +25,17 @@ void init_timer(){
 	TCA0.SINGLE.PER = 0xFF; // set top to 255
 }
 
-
+void init_AC(){
+	AC0.CTRLA = AC_ENABLE_bm |AC_HYSMODE_50mV_gc ;
+	AC0.MUXCTRLA = AC_MUXPOS_PIN1_gc | AC_MUXNEG_PIN1_gc;
+	AC0.INTCTRL = 1;
+}
+uint8_t state_AC(){
+	return (AC0.STATUS>>4)&1;
+}
 void initSerial(){
 	_tx_delay = 0;
-	uint16_t bit_delay = (F_CPU / 1200) / 4;
+	uint16_t bit_delay = (F_CPU / 9600) / 4;
 	if (bit_delay > 15 / 4)
 		_tx_delay = bit_delay - (15 / 4);
 	else
@@ -41,7 +48,7 @@ uint8_t readSerial(){
 	_delay_loop_2(_tx_delay);
 	for (uint8_t w = 0; w < 8;w++) {
 		ret >>= 1;
-		ret |= (PORTA.IN & (1<<5))?128:0;
+		ret |= state_AC()?128:0;
 		_delay_loop_2(_tx_delay);
 	}
 	sei();
@@ -74,11 +81,19 @@ int main(void)
 	CLKCTRL_MCLKCTRLA = CLKCTRL_CLKSEL_OSC20M_gc;
 	CPU_CCP = 0xD8;
 	CLKCTRL_MCLKCTRLB = 0;
-	PORTB.DIR = 0b111;
+	PORTB.DIR = 0b1111;
+	init_AC();
 	init_timer();
 	initSerial();
-	PORTA.INTFLAGS = (1<<5);
-	PORTA.PIN5CTRL = 11;
+	PORTB.OUT |= (1<<3);
+	PORTC.PIN0CTRL = 1 << 3;
+	PORTC.PIN1CTRL = 1 << 3;
+	PORTC.PIN2CTRL = 1 << 3;
+	PORTC.PIN3CTRL = 1 << 3;
+	PORTA.PIN4CTRL = 1 << 3;
+	PORTA.PIN5CTRL = 1 << 3;
+	PORTA.PIN6CTRL = 1 << 3;
+	PORTA.PIN7CTRL = 1 << 3;
 
 	sei();
     while (1) 
@@ -92,7 +107,7 @@ int main(void)
 			sei();
 			dos = false;
 		}
-		if(recv[0] == 0xff){
+		if(recv[0] == ((PORTC.IN & 0x0F) | (PORTA.IN & 0xF0))){
 			TCA0.SINGLE.CMP0 = recv[1];
 			TCA0.SINGLE.CMP1 = recv[2];
 			TCA0.SINGLE.CMP2 = recv[3];
@@ -108,6 +123,7 @@ int main(void)
     }
 }
 ISR(PORTA_PORT_vect){
-	dos = PORTA.IN & (1<<5); // fuster clucking on both edges even when set to neg
+		dos = state_AC(); // fuster clucking on both edges even when set to neg
+		AC0.STATUS = AC_CMP_bm; //clear interup flag
 }
 
