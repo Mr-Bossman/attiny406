@@ -5,7 +5,7 @@
  * Author : jtperrotta
  */ 
 
-#define F_CPU 20000000UL 
+#define F_CPU 20000000UL // ????
 #include <avr/io.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -54,7 +54,7 @@ uint8_t readSerial(){
 	sei();
 	return ret;
 }
-/*void Send (uint8_t b) {
+void Send (uint8_t b) {
 	uint8_t mask = 1<<3;
 	uint8_t imask = ~mask;
 	cli();
@@ -71,7 +71,7 @@ uint8_t readSerial(){
 	PORTB.OUT |= mask;
 	_delay_loop_2(_tx_delay);
 	sei();
-}*/
+}
 
 uint8_t recv[4] = {0};
 volatile bool dos = true;
@@ -82,10 +82,10 @@ int main(void)
 	CPU_CCP = 0xD8;
 	CLKCTRL_MCLKCTRLB = 0;
 	PORTB.DIR = 0b1111;
+	PORTB.OUT |= (1<<3);
 	init_AC();
 	init_timer();
 	initSerial();
-	PORTB.OUT |= (1<<3);
 	PORTC.PIN0CTRL = 1 << 3;
 	PORTC.PIN1CTRL = 1 << 3;
 	PORTC.PIN2CTRL = 1 << 3;
@@ -105,7 +105,7 @@ int main(void)
 			recv[b] = readSerial();
 			AC0.INTCTRL = 1;
 			sei();
-			dos = false;
+			dos = true;
 		}
 		if(recv[0] == ((PORTC.IN & 0x0F) | (PORTA.IN & 0xF0))){
 			TCA0.SINGLE.CMP0 = recv[1];
@@ -115,14 +115,16 @@ int main(void)
 			recv[0] = 0; // clear as not to comre back here resetting the timmer again
 		}
 		/*char chr[30] = {0};
-		sprintf(chr, "%u", recv[0]);
+		sprintf(chr, "%d", recv[1]);
 		for(uint8_t j = 0; j < sizeof(chr);j++){
 			Send(chr[j]);
 		}
-		Send(10);*/
+		Send('\n');
+		Send('\r');
+*/
     }
 }
-ISR(PORTA_PORT_vect){
+ISR(AC0_AC_vect){
 		dos = state_AC(); // fuster clucking on both edges even when set to neg
 		AC0.STATUS = AC_CMP_bm; //clear interup flag
 }
